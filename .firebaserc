@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "pi-air-4ab95": {
+      "hosting": {
+        "PiAir": [
+          "pi-air-4ab95"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "pi-air-4ab95"
+  }
+}
