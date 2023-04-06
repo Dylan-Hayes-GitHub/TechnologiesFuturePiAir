@@ -17,16 +17,28 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material/icon';
+import { LineChartsComponent } from './lineCharts/line-charts/line-charts.component';
+import { RadialBarChartsComponent } from './RadialBarCharts/radial-bar-charts/radial-bar-charts.component';
+import { AreaChartComponent } from './areaChart/area-chart/area-chart.component';
+import { ScatterPlotComponent } from './scatter-plot/scatter-plot.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    LineChartsComponent,
+    RadialBarChartsComponent,
+    AreaChartComponent,
+    ScatterPlotComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    MatIconModule,
     ReactiveFormsModule,
     NgApexchartsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
@@ -38,7 +50,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
     provideRemoteConfig(() => getRemoteConfig()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    NgbModule,
+    BrowserAnimationsModule
   ],
   providers: [
     ScreenTrackingService,UserTrackingService

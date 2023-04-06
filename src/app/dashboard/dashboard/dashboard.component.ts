@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
           }
         ],
         chart: {
-          height: 350,
+          width: '100%',
           type: "scatter",
           zoom: {
             type: "xy"

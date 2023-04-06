@@ -13,13 +13,20 @@ export class DataService {
     timeCollectedAt: ''
   }]);
 
+  private goodAndBadAirQualityPercentageSubject: BehaviorSubject<number[]> = new BehaviorSubject([101]);
 
   //observable to transfer data
   public $co2Data: Observable<co2Data[]> = this.co2DataSubject.asObservable();
+
+  public $goodAndBadAirQualityPercentage = this.goodAndBadAirQualityPercentageSubject.asObservable();
 
   constructor() { }
 
   public setCo2Data(data: co2Data[]): void {
     this.co2DataSubject.next(data);
+  }
+
+  public setgoodAndBadAirQualityPercentage(values: number[]): void {
+    this.goodAndBadAirQualityPercentageSubject.next(values);
   }
 }
