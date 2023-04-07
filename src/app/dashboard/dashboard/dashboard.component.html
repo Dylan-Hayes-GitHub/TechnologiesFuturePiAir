@@ -24,14 +24,14 @@
           </nav>
           <div class="row">
             <div class="col-12 p-3">
-              <mat-chip-list>
-                <mat-chip style="background: #A020F0; color: white; font-size: 15px;">
+              <mat-chip-list >
+                <mat-chip (click)="filterData(24)" style="background: #A020F0; color: white; font-size: 15px;">
                   24 hours
                 </mat-chip>
-                <mat-chip  style="background: #A020F0; color: white; font-size: 15px;">
+                <mat-chip (click)="filterData(72)" style="background: #A020F0; color: white; font-size: 15px;">
                   3 days
                 </mat-chip>
-                <mat-chip  style="background: #A020F0; color: white; font-size: 15px;">
+                <mat-chip (click)="filterData(168)" style="background: #A020F0; color: white; font-size: 15px;">
                   7 days
                 </mat-chip>
               </mat-chip-list>
@@ -39,40 +39,39 @@
           </div>
           <div class="row">
             <div class="col-lg-6">
-              <div class="row">
-                <div class="col-12 mb-5 mt-5">
-                  <div class="card p-3 h-100">
+              <div class="row  h-90 infoCard">
+                <div class="col-6">
+                  <div class="card h-100 align-self-center text-center">
                     <div class="row">
-                      <div class="col-4 text-center align-self-center">
-                        Current Co2 Level
+                      <div class="col-12 mt-5 largeFontSize">
+                        Average Co2
                       </div>
-                      <div class="col-4 text-center align-self-center">
-                        <mat-icon style="font-size: 40px;">air</mat-icon>
+                      <div class="col-10 mt-5">
+                        <mat-icon style="font-size: 100px;">air</mat-icon>
                       </div>
-                      <div class="col-4 text-center align-self-center">
-                        400
-                      </div>
+                    </div>
+                    <div class="col-12 mt-4 largeFontSize">
+                      {{averageCo2}}
                     </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="card p-3 h-100">
+                <div class="col-6">
+                  <div class="card h-100 align-self-center text-center">
                     <div class="row">
-                      <div class="col-4 text-center align-self-center">
-                        Average Co2 Level
+                      <div class="col-12 mt-5 largeFontSize">
+                        Peak Co2
                       </div>
-                      <div class="col-4 text-center align-self-center">
-                        <mat-icon style="font-size: 40px;">air</mat-icon>
+                      <div class="col-10 mt-5">
+                        <mat-icon style="font-size: 100px;">warning</mat-icon>
                       </div>
-                      <div class="col-4 text-center align-self-center">
-                        400
-                      </div>
+                    </div>
+                    <div class="col-12 mt-4 largeFontSize">
+                      {{peakCo2}}
                     </div>
                   </div>
                 </div>
-              </div>
             </div>
-
+          </div>
             <!-- area chart -->
             <div class="col-lg-6">
                 <div class="card h-100 align-self-center text-center">

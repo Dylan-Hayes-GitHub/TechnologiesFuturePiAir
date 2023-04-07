@@ -20,7 +20,7 @@ export class ScatterPlotComponent implements OnInit {
   }
   public getData(): void {
     this.dataService.$co2Data.pipe(
-      filter((arr) => arr[0].co2 !== 0), take(1)
+      filter((arr) => arr[0].co2 !== 0)
     ).subscribe(co2Data => {
       this.chartOptions = {
         series: [

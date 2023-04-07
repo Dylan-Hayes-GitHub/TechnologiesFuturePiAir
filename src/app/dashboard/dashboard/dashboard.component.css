@@ -15,3 +15,11 @@ body, html {
 .container {
   min-height: 100vh;
 }
+
+.largeFontSize {
+  font-size:  xx-large;
+}
+
+.infoCard {
+  height: 100%;
+}
