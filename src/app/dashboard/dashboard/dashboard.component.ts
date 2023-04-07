@@ -18,76 +18,18 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardService.getSensorData();
-
-    this.listenForData();
   }
-  listenForData() {
-    this.dataService.$co2Data.pipe(
-      filter((arr) => arr[0].co2 !== 0), take(1)
-    ).subscribe(fullData => {
-      console.log(fullData)
 
-      let chartData = fullData.map(data => ({
-        x: new Date(data.timeCollectedAt),
-        y: data.co2
-      }))
+  public dashboardHome(): void {
 
-      this.chartOptions = {
-        series: [
-          {
-            name: "CO2 Data",
-            data: fullData.map((dataPoint) => ({
-              x: new Date(dataPoint.timeCollectedAt),
-              y: dataPoint.co2
-            })),
+  }
 
-          }
-        ],
-        chart: {
-          width: '100%',
-          type: "scatter",
-          zoom: {
-            type: "xy"
-          },
+  public settings(): void {
 
-        },
+  }
 
-        xaxis: {
-          type: "datetime"
-        },
-        yaxis: {
-          max: 26000
-        }
-      };
-
-      // this.chartOptions = {
-      //   series: [{
-      //     name: "SAMPLE A",
-      //     data: [
-      //     fullData]
-      //   }],
-      //   chart: {
-      //     height: 350,
-      //     type: 'scatter',
-      //     zoom: {
-      //       enabled: true,
-      //       type: 'xy'
-      //     }
-      //   },
-      //   xaxis: {
-      //     tickAmount: 10,
-      //     labels: {
-      //       formatter: function(val) {
-      //         return parseFloat(val).toFixed(1)
-      //       }
-      //     }
-      //   },
-      //   yaxis: {
-      //     tickAmount: 7
-      //   }
-      // };
-    });
-
+  public notifications(): void {
+    
   }
 
 }

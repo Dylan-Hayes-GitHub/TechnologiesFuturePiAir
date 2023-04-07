@@ -44,6 +44,9 @@ export class AreaChartComponent implements OnInit {
         stroke: {
           curve: "smooth"
         },
+        colors: [
+          "#A020F0"
+        ],
         xaxis: {
           type: "datetime"
         }

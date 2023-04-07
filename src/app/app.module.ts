@@ -25,7 +25,11 @@ import { RadialBarChartsComponent } from './RadialBarCharts/radial-bar-charts/ra
 import { AreaChartComponent } from './areaChart/area-chart/area-chart.component';
 import { ScatterPlotComponent } from './scatter-plot/scatter-plot.component';
 
+import {MatChipsModule} from '@angular/material/chips'
 @NgModule({
+  schemas:[
+
+  ],
   declarations: [
     AppComponent,
     DashboardComponent,
@@ -41,6 +45,7 @@ import { ScatterPlotComponent } from './scatter-plot/scatter-plot.component';
     MatIconModule,
     ReactiveFormsModule,
     NgApexchartsModule,
+    MatChipsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),

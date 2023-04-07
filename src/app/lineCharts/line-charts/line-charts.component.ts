@@ -58,6 +58,8 @@ export class LineChartsComponent implements OnInit {
             opacity: 0.5
           }
         },
+        colors:
+        ["#A020F0"],
         xaxis: {
           type: "datetime"
         }

@@ -43,7 +43,7 @@ export class ScatterPlotComponent implements OnInit {
         },
         markers: {
           colors:  ["#A020F0"],
-          fillOpacity: 1
+
         }
       };
     });

@@ -1,77 +1,121 @@
-<div class="container">
+<div class="container-fluid h-100">
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-2 d-flex flex-column align-items-center">
+      <div class="ml-3">
+        <div class="customItemAlignment mb-3 mt-3" (click)="dashboardHome()">
+          <mat-icon>home</mat-icon> Dashboard
+        </div>
+        <div class="customItemAlignment mb-3" (click)="notifications()">
+          <mat-icon>notifications</mat-icon> Notifications
+        </div>
+        <div class="customItemAlignment mb-3" (click)="settings()">
+          <mat-icon>settings</mat-icon> Settings
+        </div>
+      </div>
+      </div>
+
+
+    <div class="col-md-10 ml-sm-auto">
       <div class="row">
-        <div class="col-12 mb-5 mt-5">
-          <div class="card p-3 h-100">
-            <div class="row">
-              <div class="col-4 text-center align-self-center">
-                Current Co2 Level
+        <div class="container bg-dark">
+          <nav class="navbar bg-dark" data-bs-theme="dark">
+            <!-- Navbar content -->
+            <p class="navbar-brand text-light">Pi-Air</p>
+          </nav>
+          <div class="row">
+            <div class="col-12 p-3">
+              <mat-chip-list>
+                <mat-chip style="background: #A020F0; color: white; font-size: 15px;">
+                  24 hours
+                </mat-chip>
+                <mat-chip  style="background: #A020F0; color: white; font-size: 15px;">
+                  3 days
+                </mat-chip>
+                <mat-chip  style="background: #A020F0; color: white; font-size: 15px;">
+                  7 days
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-12 mb-5 mt-5">
+                  <div class="card p-3 h-100">
+                    <div class="row">
+                      <div class="col-4 text-center align-self-center">
+                        Current Co2 Level
+                      </div>
+                      <div class="col-4 text-center align-self-center">
+                        <mat-icon style="font-size: 40px;">air</mat-icon>
+                      </div>
+                      <div class="col-4 text-center align-self-center">
+                        400
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card p-3 h-100">
+                    <div class="row">
+                      <div class="col-4 text-center align-self-center">
+                        Average Co2 Level
+                      </div>
+                      <div class="col-4 text-center align-self-center">
+                        <mat-icon style="font-size: 40px;">air</mat-icon>
+                      </div>
+                      <div class="col-4 text-center align-self-center">
+                        400
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-4 text-center align-self-center">
-                <mat-icon style="font-size: 40px;">air</mat-icon>
+            </div>
+
+            <!-- area chart -->
+            <div class="col-lg-6">
+                <div class="card h-100 align-self-center text-center">
+                  <div class="card p-3 h-100">
+
+                    <app-area-chart></app-area-chart>
+                  </div>
               </div>
-              <div class="col-4 text-center align-self-center">
-                400
+            </div>
+
+
+            <!-- Second Line of dashboard items -->
+
+            <!-- line chart -->
+            <div class="col-4 mb-2 mt-3">
+              <div class="card p-3 h-100">
+                <app-line-charts>
+                </app-line-charts>
+              </div>
+            </div>
+
+            <!-- radial bar chart -->
+            <div class="col-4  mb-2 mt-3">
+              <div class="card p-3 h-100">
+                <app-radial-bar-charts>
+                </app-radial-bar-charts>
+              </div>
+            </div>
+
+            <!-- scatter plot -->
+            <div class="col-4  mb-2 mt-3">
+              <div class="card p-3 h-100">
+                <app-scatter-plot>
+                </app-scatter-plot>
               </div>
             </div>
           </div>
         </div>
-
-
-
-        <div class="col-12">
-          <div class="card p-3 h-100">
-            <div class="row">
-              <div class="col-4 text-center align-self-center">
-                Average Co2 Level
-              </div>
-              <div class="col-4 text-center align-self-center">
-                <mat-icon style="font-size: 40px;">air</mat-icon>
-              </div>
-              <div class="col-4 text-center align-self-center">
-                400
-              </div>
-            </div>
-          </div>
-        </div>
-
-
       </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="card h-100 align-self-center text-center">
-          <!-- <div id="chart">
-            <apx-chart
-              [series]="chartOptions.series"
-              [chart]="chartOptions.chart"
-              [xaxis]="chartOptions.xaxis"
-              [yaxis]="chartOptions.yaxis"
-            ></apx-chart>
-          </div> -->
-          <app-area-chart></app-area-chart>
-      </div>
-    </div>
-
-
-    <!-- Second Line of dashboard items -->
-    <div class="col-4">
-      <app-line-charts>
-      </app-line-charts>
-    </div>
-
-    <div class="col-4">
-      <app-radial-bar-charts>
-
-      </app-radial-bar-charts>
-    </div>
-    <div class="col-4">
-      <app-scatter-plot>
-
-      </app-scatter-plot>
     </div>
   </div>
 </div>
+
 
 
 

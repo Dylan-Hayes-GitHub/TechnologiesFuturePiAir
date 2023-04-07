@@ -16,8 +16,9 @@ export type LineChartOptions = {
   grid: ApexGrid;
   stroke: ApexStroke;
   title: ApexTitleSubtitle;
-}
+  colors: string[];
 
+}
 export type RadialBarChart = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
@@ -35,6 +36,7 @@ export type AreaChart = {
   stroke: ApexStroke;
   tooltip: ApexTooltip;
   dataLabels: ApexDataLabels;
+  colors: string[];
 }
 
 export type ScatterPlot = {

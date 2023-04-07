@@ -16,7 +16,7 @@ export class DashboardService {
     this.co2Data = [];
     const db = getDatabase();
     const dataRef = ref(db, 'data/');
-    const sensorQuery = query(dataRef, limitToLast(100));
+    const sensorQuery = query(dataRef, limitToLast(1));
 
     get(sensorQuery).then(data => {
       data.forEach(parent => {

@@ -49,7 +49,7 @@ export class RadialBarChartsComponent implements OnInit {
             }
           }
         },
-        colors: ["#1ab7ea", "#FF0000"],
+        colors: ["#A020F0", "#6A0DAD"],
         labels: ["Good Air Quality", "Bad Air Quality"],
         legend: {
           show: true,

@@ -1,0 +1,17 @@
+.customItemAlignment {
+  cursor: pointer;
+  height: 24px; /* set the height to match the height of the container */
+  line-height: 24px; /* set the line-height to match the height of the container */
+  font-size: 25px;
+}
+.customItemAlignment mat-icon {
+  margin-right: 5px;
+}
+
+body, html {
+  height: 100vh;
+}
+
+.container {
+  min-height: 100vh;
+}
