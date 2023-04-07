@@ -72,4 +72,43 @@ export class DataService {
   public setLast7Days(value: co2Data[]): void {
     this.last7DaysSubject.next(value);
   }
+
+  public getMetrics(filteredData: co2Data[]): void {
+
+    //work out average and co2 Peak
+    let co2Total = 0;
+    let peak = 0;
+    let counter = 0;
+    let totalAmountOfBadAir = 0;
+    filteredData.forEach(co2Data => {
+      co2Total = co2Total + co2Data.co2;
+
+      if(peak < co2Data.co2){
+        peak = co2Data.co2;
+      }
+
+      if(co2Data.co2 >= 1500){
+        totalAmountOfBadAir++;
+      }
+      counter ++;
+    });
+
+
+    console.log("Test 2 " +filteredData.length)
+
+    // this.goodAirQualityPercentage = (((filterValue * 60) - this.badAirQualityPercentage) / (filterValue * 60)) * 100
+    // this.badAirQualityPercentage = (this.badAirQualityPercentage / (filterValue * 60)) * 100
+    // let values: number[] = [Math.round(this.goodAirQualityPercentage) , Math.round(this.badAirQualityPercentage)];
+
+    let goodAirQualityPercentage = ((filteredData.length - totalAmountOfBadAir) / filteredData.length) * 100;
+    let badAirQualityPercentage = (totalAmountOfBadAir / filteredData.length) * 100;
+
+    let values: number[] = [Math.round(goodAirQualityPercentage) , Math.round(badAirQualityPercentage)];
+    let co2Avg = Math.round(co2Total / counter);
+
+    //set values
+    this.setAverageCo2(co2Avg);
+    this.setPeakCo2(peak);
+    this.setgoodAndBadAirQualityPercentage(values);
+  }
 }

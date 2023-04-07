@@ -31,17 +31,26 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getSensorData(DashboardComponent.defaultFilter);
 
     //subscribe to get the average and peak co2 data
+    this.dataService.$last24Hours.pipe(
+      filter((arr) => arr[0].co2 !== 0), take(1)
+    ).subscribe(co2Data => {
+
+      this.dataService.getMetrics(co2Data);
+
     this.dataService.$averageCo2.pipe(
-      filter(x => x != 0), take(1)
+      filter(x => x != 0)
     ).subscribe(co2Avg => {
       this.averageCo2 = co2Avg;
     });
 
     this.dataService.$peakCo2.pipe(
-      filter(x => x != 0), take(1)
+      filter(x => x != 0),
     ).subscribe(co2Peak => {
       this.peakCo2 = co2Peak;
     });
+
+    })
+
   }
 
   public dashboardHome(): void {
@@ -62,7 +71,7 @@ export class DashboardComponent implements OnInit {
         this.dataService.$last24Hours.pipe(
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
-          console.log(filteredData)
+          this.dataService.getMetrics(filteredData);
           this.dataService.setCo2Data(filteredData);
         });
         break;
@@ -71,7 +80,7 @@ export class DashboardComponent implements OnInit {
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
           console.log(filteredData)
-
+          this.dataService.getMetrics(filteredData);
           this.dataService.setCo2Data(filteredData);
         });
         break;
@@ -79,8 +88,7 @@ export class DashboardComponent implements OnInit {
         this.dataService.$last7Days.pipe(
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
-          console.log(filteredData)
-
+          this.dataService.getMetrics(filteredData);
           this.dataService.setCo2Data(filteredData);
         });
         break;

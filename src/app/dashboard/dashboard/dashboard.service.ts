@@ -63,26 +63,17 @@ export class DashboardService {
 
       let reversedArray = this.co2Data.reverse();
 
-      this.goodAirQualityPercentage = (((filterValue * 60) - this.badAirQualityPercentage) / (filterValue * 60)) * 100
-      this.badAirQualityPercentage = (this.badAirQualityPercentage / (filterValue * 60)) * 100
 
       this.last24Hours = reversedArray.slice(0, 1440);
       this.last3Days = reversedArray.slice(0, 4320);
       this.last7Days = reversedArray.slice(0, 10087);
 
-      console.log(this.last24Hours)
-      console.log(this.last3Days)
-
-      console.log(this.co2Data)
-
-      let values: number[] = [Math.round(this.goodAirQualityPercentage) , Math.round(this.badAirQualityPercentage)];
-
       this.dataService.setLast24Hours(this.last24Hours);
       this.dataService.setlast3Days(this.last3Days);
       this.dataService.setLast7Days(this.last7Days);
-      this.dataService.setAverageCo2(this.averageCo2);
-      this.dataService.setPeakCo2(this.peakCo2);
-      this.dataService.setgoodAndBadAirQualityPercentage(values);
+
+
+      //this.dataService.setgoodAndBadAirQualityPercentage(values);
       this.dataService.setCo2Data(this.last24Hours);
     });
   }
