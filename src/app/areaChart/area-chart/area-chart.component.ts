@@ -21,16 +21,19 @@ export class AreaChartComponent implements OnInit {
 
   public getData(): void {
     this.dataService.$co2Data.pipe(
-      filter((arr) => arr[0].co2 !== 0), take(1)
+      filter((arr) => arr[0].co2 !== 0)
     ).subscribe(co2Data => {
+      console.log("area chart")
+      console.log(co2Data)
+      let formattedData = co2Data.map((dataPoint) => ({
+        x: new Date(dataPoint.timeCollectedAt),
+        y: dataPoint.co2
+      }))
       this.chartOptions = {
         series: [
           {
             name: "CO2",
-            data: co2Data.map((dataPoint) => ({
-              x: new Date(dataPoint.timeCollectedAt),
-              y: dataPoint.co2
-            })),
+            data:formattedData
 
           }
         ],
@@ -48,7 +51,9 @@ export class AreaChartComponent implements OnInit {
           "#A020F0"
         ],
         xaxis: {
-          type: "datetime"
+          type: "datetime",
+          min: new Date(co2Data[co2Data.length-1].timeCollectedAt).getTime(),
+          max: new Date().getTime()
         }
       };
     });

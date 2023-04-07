@@ -57,7 +57,36 @@ export class DashboardComponent implements OnInit {
   }
 
   public filterData(value: number): void {
-    this.dashboardService.getSensorData(value);
+    switch (value) {
+      case 24:
+        this.dataService.$last24Hours.pipe(
+          filter((arr) => arr[0].co2 !== 0)
+        ).subscribe(filteredData => {
+          console.log(filteredData)
+          this.dataService.setCo2Data(filteredData);
+        });
+        break;
+      case 72:
+        this.dataService.$last3Days.pipe(
+          filter((arr) => arr[0].co2 !== 0)
+        ).subscribe(filteredData => {
+          console.log(filteredData)
+
+          this.dataService.setCo2Data(filteredData);
+        });
+        break;
+      case 168:
+        this.dataService.$last7Days.pipe(
+          filter((arr) => arr[0].co2 !== 0)
+        ).subscribe(filteredData => {
+          console.log(filteredData)
+
+          this.dataService.setCo2Data(filteredData);
+        });
+        break;
+      default:
+        break;
+    }
   }
 
 }
