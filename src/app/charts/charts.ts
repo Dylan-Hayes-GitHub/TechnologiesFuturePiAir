@@ -48,7 +48,21 @@ export type ScatterPlot = {
   markers: ApexMarkers;
 };
 
+export type HeatMap = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  title: ApexTitleSubtitle;
+  colors: any;
+  xaxis: ApexXAxis;
+};
+
 export interface co2Data {
   co2: number;
   timeCollectedAt: string;
+}
+
+export interface Notifications {
+  co2LevelWarning: number;
+  timeWarningOccured: string;
 }

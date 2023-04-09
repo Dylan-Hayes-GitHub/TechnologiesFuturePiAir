@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { getDatabase, ref, onValue, query, limitToLast, get, limitToFirst } from '@angular/fire/database';
-import { co2Data } from 'src/app/charts/charts';
+import { getDatabase, onValue, query, limitToLast, get, limitToFirst, ref } from '@angular/fire/database';
+import { Notifications, co2Data } from 'src/app/charts/charts';
 import { DataService } from 'src/app/data/data.service';
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
+
   public co2Data: co2Data[] = [];
   public peakCo2: number = 0;
   public averageCo2: number = 0;
@@ -15,9 +16,14 @@ export class DashboardService {
   public last3Days:  co2Data[] = [];
   public last7Days:  co2Data[] = [];
 
+  public co2WarningLevel: number = +localStorage.getItem('co2WarningLevel');
   constructor(private dataService: DataService) { }
 
   public getSensorData(filterValue: number): any {
+
+    //default of 1500 if user has not set a value
+    this.co2WarningLevel != 0 ? this.co2WarningLevel : 1500
+
     let counter = 0;
     this.co2Data = [];
     this.peakCo2 = 0;
@@ -44,7 +50,7 @@ export class DashboardService {
               co2: sensorData.child('co2_eq_ppm').val(),
               timeCollectedAt: sensorData.child('time').val()
             }
-            if(sensorData.child('co2_eq_ppm').val() > 750){
+            if(sensorData.child('co2_eq_ppm').val() > this.co2WarningLevel){
               this.badAirQualityPercentage++;
             }
 
@@ -75,6 +81,40 @@ export class DashboardService {
 
       //this.dataService.setgoodAndBadAirQualityPercentage(values);
       this.dataService.setCo2Data(this.last24Hours);
+
+      if(filterValue == 24){
+        this.dataService.getMetrics(this.last24Hours);
+      } else if (filterValue == 72) {
+        this.dataService.getMetrics(this.last3Days);
+      } else {
+        this.dataService.getMetrics(this.last7Days);
+      }
+
     });
+  }
+
+  public getUserSettings() {
+    const db = getDatabase();
+    const settingsRef = ref(db, 'settings');
+
+    get(settingsRef).then(userSettings => {
+      if(userSettings.hasChild('co2WarningLevel')) {
+        localStorage.setItem('co2WarningLevel', userSettings.child('co2WarningLevel').val());
+      }
+    })
+  }
+
+  public getNotificationData(): void {
+    const db = getDatabase();
+    const notificationsRef = ref(db, 'notification')
+    let userNotifications: Notifications[] = [];
+    onValue(notificationsRef, notifications => {
+      userNotifications = [];
+      notifications.forEach(values => {
+        let newNoti: Notifications = {co2LevelWarning : +values.child('co2LevelWarning').val, timeWarningOccured: values.child('timeWarningOccured').val()}
+        userNotifications.push(newNoti);
+      })
+      this.dataService.setNotifications(userNotifications);
+    })
   }
 }

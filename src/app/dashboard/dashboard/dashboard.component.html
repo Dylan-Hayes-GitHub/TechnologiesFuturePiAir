@@ -1,27 +1,27 @@
 <div class="container-fluid h-100">
   <div class="row">
-    <div class="col-2 d-flex flex-column align-items-center">
-      <div class="ml-3">
-        <div class="customItemAlignment mb-3 mt-3" (click)="dashboardHome()">
-          <mat-icon>home</mat-icon> Dashboard
-        </div>
-        <div class="customItemAlignment mb-3" (click)="notifications()">
-          <mat-icon>notifications</mat-icon> Notifications
-        </div>
-        <div class="customItemAlignment mb-3" (click)="settings()">
-          <mat-icon>settings</mat-icon> Settings
-        </div>
-      </div>
-      </div>
-
-
-    <div class="col-md-10 ml-sm-auto">
+    <div class="col-12">
       <div class="row">
         <div class="container bg-dark">
-          <nav class="navbar bg-dark" data-bs-theme="dark">
+          <nav class="navbar bg-dark col-12" data-bs-theme="dark">
             <!-- Navbar content -->
-            <p class="navbar-brand text-light">Pi-Air</p>
+            <div class="d-flex justify-content-start">
+              <p class="navbar-brand text-light">Pi-Air</p>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button mat-button [matMenuTriggerFor]="belowMenu"><mat-icon class="whiteIcon">notifications</mat-icon></button>
+              <mat-menu #belowMenu="matMenu" yPosition="below">
+                <div class="test" *ngFor="let item of userNotifications">
+                  {{item | json}}
+                </div>
+
+              </mat-menu>
+                <button mat-button (click)="settings()"><mat-icon class="whiteIcon">settings</mat-icon></button>
+            </div>
           </nav>
+
+
           <div class="row">
             <div class="col-12 p-3">
               <mat-chip-list >
@@ -104,8 +104,9 @@
             <!-- scatter plot -->
             <div class="col-4  mb-2 mt-3">
               <div class="card h-100">
-                <!-- <app-scatter-plot>
-                </app-scatter-plot> -->
+                <app-scatter-plot>
+                </app-scatter-plot>
+                <!-- <app-heat-map></app-heat-map> -->
               </div>
             </div>
           </div>

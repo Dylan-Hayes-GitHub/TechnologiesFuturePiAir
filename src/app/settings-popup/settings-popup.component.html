@@ -1,0 +1,14 @@
+<div class="center-align-container">
+  <h1>Settings</h1>
+  <form [formGroup]="formGroup" (submit)="updateCo2QualitySettings()">
+    <mat-form-field appearance="outline">
+      <mat-icon matSuffix>tune</mat-icon>
+      <mat-label>Co2 Level Warning</mat-label>
+
+      <input matInput placeholder="Co2 Level Warning" formControlName="co2LevelWarning" type="text">
+
+    </mat-form-field>
+  </form>
+<div class="leaveButtonDiv">
+  <button mat-button (click)="closeSettings()" color="primary" class="customButtonColor">Close</button>
+</div>

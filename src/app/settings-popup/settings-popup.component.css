@@ -1,0 +1,25 @@
+
+
+.customButtonColor {
+  color: white;
+  background-color: blueviolet;
+}
+
+input:focus {
+  border: blueviolet;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: blueviolet !important;
+ }
+
+ ::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: blueviolet !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+ /*change color of underline when focused*/
+ background-color: blueviolet !important;
+}

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { co2Data } from '../charts/charts';
+import { Notifications, co2Data } from '../charts/charts';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+
+  public co2WarningLevel: number = +localStorage.getItem('co2WarningLevel');
 
   //data subjects to share databetween components
   private co2DataSubject: BehaviorSubject<co2Data[]> = new BehaviorSubject([{
@@ -32,6 +34,11 @@ export class DataService {
     timeCollectedAt: ''
   }]);
 
+  private notificationsSubject: BehaviorSubject<Notifications[]> = new BehaviorSubject([{
+    co2LevelWarning: 0,
+    timeWarningOccured: ''
+  }])
+
   //observable to transfer data
   public $co2Data: Observable<co2Data[]> = this.co2DataSubject.asObservable();
   public $averageCo2: Observable<number> = this.averageCo2Subject.asObservable();
@@ -43,6 +50,7 @@ export class DataService {
 
   public $goodAndBadAirQualityPercentage = this.goodAndBadAirQualityPercentageSubject.asObservable();
 
+  public $notifications = this.notificationsSubject.asObservable();
   constructor() { }
 
   public setCo2Data(data: co2Data[]): void {
@@ -73,7 +81,13 @@ export class DataService {
     this.last7DaysSubject.next(value);
   }
 
+  public setNotifications(notifications: Notifications[]){
+    this.notificationsSubject.next(notifications);
+  }
+
   public getMetrics(filteredData: co2Data[]): void {
+
+    this.co2WarningLevel != 0 ? this.co2WarningLevel : 1500
 
     //work out average and co2 Peak
     let co2Total = 0;
@@ -87,18 +101,11 @@ export class DataService {
         peak = co2Data.co2;
       }
 
-      if(co2Data.co2 >= 1500){
+      if(co2Data.co2 >= this.co2WarningLevel){
         totalAmountOfBadAir++;
       }
       counter ++;
     });
-
-
-    console.log("Test 2 " +filteredData.length)
-
-    // this.goodAirQualityPercentage = (((filterValue * 60) - this.badAirQualityPercentage) / (filterValue * 60)) * 100
-    // this.badAirQualityPercentage = (this.badAirQualityPercentage / (filterValue * 60)) * 100
-    // let values: number[] = [Math.round(this.goodAirQualityPercentage) , Math.round(this.badAirQualityPercentage)];
 
     let goodAirQualityPercentage = ((filteredData.length - totalAmountOfBadAir) / filteredData.length) * 100;
     let badAirQualityPercentage = (totalAmountOfBadAir / filteredData.length) * 100;

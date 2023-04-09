@@ -3,7 +3,9 @@ import { DashboardService } from './dashboard.service';
 import { DataService } from 'src/app/data/data.service';
 import { filter, take } from 'rxjs';
 import { ChartComponent } from 'ng-apexcharts';
-import { ChartOptions } from 'src/app/charts/charts';
+import { ChartOptions, Notifications } from 'src/app/charts/charts';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { SettingsPopupComponent } from 'src/app/settings-popup/settings-popup.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,13 +23,23 @@ export class DashboardComponent implements OnInit {
   public last7Days: boolean = false;
 
   public static defaultFilter: number = 24;
-  constructor(private dashboardService: DashboardService, private dataService: DataService) { }
+
+  //Dialog ref for making the pop up show
+  public dialogRef: MatDialogRef<SettingsPopupComponent>;
+
+  public showNotifications: boolean = false;
+  public belowMenu: any;
+
+  public userNotifications: Notifications[] = [];
+  constructor(private dashboardService: DashboardService, private dataService: DataService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getData();
   }
 
   public getData(): void {
+    this.dashboardService.getUserSettings();
+    this.dashboardService.getNotificationData();
     this.dashboardService.getSensorData(DashboardComponent.defaultFilter);
 
     //subscribe to get the average and peak co2 data
@@ -49,6 +61,12 @@ export class DashboardComponent implements OnInit {
       this.peakCo2 = co2Peak;
     });
 
+    });
+
+    this.dataService.$notifications.pipe(
+      filter((x) => x[0].co2LevelWarning !== 0)
+    ).subscribe(notis => {
+      this.userNotifications = notis;
     })
 
   }
@@ -58,10 +76,19 @@ export class DashboardComponent implements OnInit {
   }
 
   public settings(): void {
+    //make dialog pop up
+    this.dialogRef = this.dialog.open(SettingsPopupComponent);
+    this.dialogRef.afterClosed().subscribe(result => {
 
+    });
   }
 
   public notifications(): void {
+    if(this.showNotifications){
+      this.showNotifications = false;
+    } else {
+      this.showNotifications = true;
+    }
 
   }
 
