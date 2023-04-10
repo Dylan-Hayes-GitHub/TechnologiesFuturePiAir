@@ -12,9 +12,9 @@ export class DashboardService {
   public averageCo2: number = 0;
   public badAirQualityPercentage: number = 0;
   public goodAirQualityPercentage: number = 0;
+  public lastHour: co2Data[] = [];
   public last24Hours: co2Data[] = [];
   public last3Days:  co2Data[] = [];
-  public last7Days:  co2Data[] = [];
   public totalNotifications: number = 0;
 
   public co2WarningLevel: number = +localStorage.getItem('co2WarningLevel');
@@ -35,7 +35,6 @@ export class DashboardService {
     this.last3Days = [];
     this.last24Hours = [];
     //this filter value determines how many hours of data should be selected from firebase to be displayed
-    console.log(filterValue)
 
     this.co2Data = [];
     const db = getDatabase();
@@ -70,25 +69,23 @@ export class DashboardService {
 
       let reversedArray = this.co2Data.reverse();
 
-
+      this.lastHour = reversedArray.slice(0, 60);
       this.last24Hours = reversedArray.slice(0, 1440);
       this.last3Days = reversedArray.slice(0, 4320);
-      this.last7Days = reversedArray.slice(0, 10087);
 
+      this.dataService.setLastHour(this.lastHour);
       this.dataService.setLast24Hours(this.last24Hours);
       this.dataService.setlast3Days(this.last3Days);
-      this.dataService.setLast7Days(this.last7Days);
-
-
-      //this.dataService.setgoodAndBadAirQualityPercentage(values);
-      this.dataService.setCo2Data(this.last24Hours);
 
       if(filterValue == 24){
         this.dataService.getMetrics(this.last24Hours);
+        this.dataService.setCo2Data(this.last24Hours);
       } else if (filterValue == 72) {
         this.dataService.getMetrics(this.last3Days);
+        this.dataService.setCo2Data(this.last3Days);
       } else {
-        this.dataService.getMetrics(this.last7Days);
+        this.dataService.getMetrics(this.lastHour);
+        this.dataService.setCo2Data(this.lastHour);
       }
 
     });
@@ -161,8 +158,6 @@ export class DashboardService {
     get(notificationsRef).then(userNotifications => {
       userNotifications.forEach(notis => {
         if(notis.child('timeWarningOccured').val() == notification.timeWarningOccured){
-          console.log("found at key " + notis.toJSON())
-          console.log(notis.toJSON())
           //update firebase to say that notification has been seen that count can reduce
           const notificationUpdateRef = ref(db, 'notification/'+notis.key);
           update(notificationUpdateRef, {

@@ -23,8 +23,6 @@ export class AreaChartComponent implements OnInit {
     this.dataService.$co2Data.pipe(
       filter((arr) => arr[0].co2 !== 0)
     ).subscribe(co2Data => {
-      console.log("area chart")
-      console.log(co2Data)
       let formattedData = co2Data.map((dataPoint) => ({
         x: new Date(dataPoint.timeCollectedAt),
         y: dataPoint.co2

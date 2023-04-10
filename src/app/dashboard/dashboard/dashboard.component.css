@@ -70,3 +70,7 @@ body, html {
 .wanringLevelCo2Detected{
   width: 40%;
 }
+
+.buttonNotFocused {
+  opacity: 0.5;
+}

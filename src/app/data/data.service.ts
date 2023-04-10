@@ -29,7 +29,7 @@ export class DataService {
     timeCollectedAt: ''
   }]);
 
-  private last7DaysSubject: BehaviorSubject<co2Data[]> = new BehaviorSubject([{
+  private lastHourSubject: BehaviorSubject<co2Data[]> = new BehaviorSubject([{
     co2: 0,
     timeCollectedAt: ''
   }]);
@@ -42,6 +42,10 @@ export class DataService {
 
   private totalNotificationsSubject: BehaviorSubject<number> = new BehaviorSubject(1000);
 
+  private lastHourFilterSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private last24HoursFilterSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private lastThreeDaysFilterSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   //observable to transfer data
   public $co2Data: Observable<co2Data[]> = this.co2DataSubject.asObservable();
   public $averageCo2: Observable<number> = this.averageCo2Subject.asObservable();
@@ -49,13 +53,16 @@ export class DataService {
 
   public $last24Hours: Observable<co2Data[]> = this.last24HoursSubject.asObservable();
   public $last3Days: Observable<co2Data[]> = this.last3DaysSubject.asObservable();
-  public $last7Days: Observable<co2Data[]> = this.last7DaysSubject.asObservable();
+  public $lastHour: Observable<co2Data[]> = this.lastHourSubject.asObservable();
 
   public $goodAndBadAirQualityPercentage = this.goodAndBadAirQualityPercentageSubject.asObservable();
 
   public $notifications = this.notificationsSubject.asObservable();
-
   public $totalNotifications = this.totalNotificationsSubject.asObservable();
+
+  public $lastHourFilter = this.lastHourFilterSubject.asObservable();
+  public $last24HoursFilter = this.last24HoursFilterSubject.asObservable();
+  public $lastThreeDaysFilter = this.lastThreeDaysFilterSubject.asObservable();
 
   constructor() { }
 
@@ -83,8 +90,8 @@ export class DataService {
     this.last3DaysSubject.next(value);
   }
 
-  public setLast7Days(value: co2Data[]): void {
-    this.last7DaysSubject.next(value);
+  public setLastHour(value: co2Data[]): void {
+    this.lastHourSubject.next(value);
   }
 
   public setNotifications(notifications: Notifications[]){
@@ -95,10 +102,23 @@ export class DataService {
     this.totalNotificationsSubject.next(total);
   }
 
+  public setLastHourFilter(filter: boolean): void {
+    this.lastHourFilterSubject.next(filter);
+  }
+
+  public setLast24HoursFilter(filter: boolean): void {
+    this.last24HoursFilterSubject.next(filter);
+  }
+
+  public setLastThreeDaysFilter(filter: boolean): void {
+    this.lastThreeDaysFilterSubject.next(filter);
+  }
+
   public getMetrics(filteredData: co2Data[]): void {
+    let warningLevel = +localStorage.getItem('co2WarningLevel')
+    warningLevel != 0 ? warningLevel : 1500
 
-    this.co2WarningLevel != 0 ? this.co2WarningLevel : 1500
-
+    console.log(warningLevel)
     //work out average and co2 Peak
     let co2Total = 0;
     let peak = 0;
@@ -111,7 +131,7 @@ export class DataService {
         peak = co2Data.co2;
       }
 
-      if(co2Data.co2 >= this.co2WarningLevel){
+      if(co2Data.co2 >= warningLevel){
         totalAmountOfBadAir++;
       }
       counter ++;

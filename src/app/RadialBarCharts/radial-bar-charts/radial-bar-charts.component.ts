@@ -22,8 +22,7 @@ export class RadialBarChartsComponent implements OnInit {
     this.dataService.$goodAndBadAirQualityPercentage.pipe(
       filter((arr) => arr[0] !== 101)
     ).subscribe(qualityPercentages => {
-      console.log("Radial bar chart");
-      console.log(qualityPercentages)
+      console.log("values updated")
       this.chartOptions = {
         series: [qualityPercentages[0], qualityPercentages[1]],
         chart: {

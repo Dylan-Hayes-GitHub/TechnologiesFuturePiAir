@@ -6,7 +6,6 @@ import { ChartComponent } from 'ng-apexcharts';
 import { ChartOptions, Notifications } from 'src/app/charts/charts';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SettingsPopupComponent } from 'src/app/settings-popup/settings-popup.component';
-import { flip } from '@popperjs/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,11 +18,14 @@ export class DashboardComponent implements OnInit {
   public averageCo2: number = 0;
   public peakCo2: number = 0;
 
-  public last24Hours: boolean = true;
+  //filter options
+  public lastHour: boolean = true;
+  public last24Hours: boolean = false;
   public last3Days: boolean = false;
-  public last7Days: boolean = false;
 
-  public static defaultFilter: number = 24;
+
+
+  public static defaultFilter: number = 1;
 
   //Dialog ref for making the pop up show
   public dialogRef: MatDialogRef<SettingsPopupComponent>;
@@ -39,6 +41,19 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+    this.dataService.setLastHourFilter(true);
+
+    this.dataService.$lastHourFilter.subscribe(value => {
+      this.lastHour = value;
+    })
+
+    this.dataService.$last24HoursFilter.subscribe(value => {
+      this.last24Hours = value;
+    })
+
+    this.dataService.$lastThreeDaysFilter.subscribe(value => {
+      this.last3Days = value;
+    })
   }
 
   public getData(): void {
@@ -108,25 +123,38 @@ export class DashboardComponent implements OnInit {
         this.dataService.$last24Hours.pipe(
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
+          this.dataService.setLastHourFilter(false);
+          this.dataService.setLastThreeDaysFilter(false);
+          this.dataService.setLast24HoursFilter(true);
+
           this.dataService.getMetrics(filteredData);
           this.dataService.setCo2Data(filteredData);
+
         });
         break;
       case 72:
         this.dataService.$last3Days.pipe(
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
-          console.log(filteredData)
+          this.dataService.setLastHourFilter(false);
+          this.dataService.setLast24HoursFilter(false);
+          this.dataService.setLastThreeDaysFilter(true);
           this.dataService.getMetrics(filteredData);
           this.dataService.setCo2Data(filteredData);
+
         });
         break;
-      case 168:
-        this.dataService.$last7Days.pipe(
+      case 1:
+        this.dataService.$lastHour.pipe(
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
+          this.dataService.setLast24HoursFilter(false);
+          this.dataService.setLastThreeDaysFilter(false);
+          this.dataService.setLastHourFilter(true);
+
           this.dataService.getMetrics(filteredData);
           this.dataService.setCo2Data(filteredData);
+
         });
         break;
       default:
