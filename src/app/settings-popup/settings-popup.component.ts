@@ -47,7 +47,6 @@ export class SettingsPopupComponent implements OnInit {
     )
     .subscribe(filter => {
       if(filter){
-        console.log("last hour")
 
         this.dashboardService.getSensorData(1);
       }
@@ -58,7 +57,6 @@ export class SettingsPopupComponent implements OnInit {
     ).subscribe(filter => {
 
       if(filter){
-        console.log("last 24 hour")
 
         this.dashboardService.getSensorData(24);
       }
@@ -69,7 +67,6 @@ export class SettingsPopupComponent implements OnInit {
     ).subscribe(filter => {
 
       if(filter){
-        console.log("last three days")
 
         this.dashboardService.getSensorData(72);
       }

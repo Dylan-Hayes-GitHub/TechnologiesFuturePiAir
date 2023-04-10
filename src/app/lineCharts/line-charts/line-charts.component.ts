@@ -12,6 +12,9 @@ import { DataService } from 'src/app/data/data.service';
 export class LineChartsComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<LineChartOptions>;
+
+  public graphFullyLoaded: boolean = false;
+
   constructor(private dataService: DataService) {
 
    }
@@ -64,6 +67,8 @@ export class LineChartsComponent implements OnInit {
           type: "datetime"
         }
       };
+      this.graphFullyLoaded = true;
+
     });
   }
 

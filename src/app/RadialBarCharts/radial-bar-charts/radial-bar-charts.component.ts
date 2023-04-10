@@ -12,6 +12,9 @@ import { DataService } from 'src/app/data/data.service';
 export class RadialBarChartsComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<RadialBarChart>;
+
+  public graphFullyLoaded: boolean = false;
+
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
@@ -22,7 +25,6 @@ export class RadialBarChartsComponent implements OnInit {
     this.dataService.$goodAndBadAirQualityPercentage.pipe(
       filter((arr) => arr[0] !== 101)
     ).subscribe(qualityPercentages => {
-      console.log("values updated")
       this.chartOptions = {
         series: [qualityPercentages[0], qualityPercentages[1]],
         chart: {
@@ -71,7 +73,9 @@ export class RadialBarChartsComponent implements OnInit {
         },
 
       };
-    })
+
+      this.graphFullyLoaded = true;
+    });
   }
 
 }

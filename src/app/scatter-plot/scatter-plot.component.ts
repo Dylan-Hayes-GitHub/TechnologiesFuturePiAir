@@ -13,6 +13,7 @@ export class ScatterPlotComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ScatterPlot>;
 
+  public graphFullyLoaded: boolean = false;
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
@@ -46,6 +47,8 @@ export class ScatterPlotComponent implements OnInit {
 
         }
       };
+
+      this.graphFullyLoaded = true;
     });
   }
 

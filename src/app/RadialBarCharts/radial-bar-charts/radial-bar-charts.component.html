@@ -1,5 +1,5 @@
 <div id="chart">
-  <apx-chart
+  <apx-chart *ngIf="graphFullyLoaded"
     [series]="chartOptions.series"
     [chart]="chartOptions.chart"
     [plotOptions]="chartOptions.plotOptions"

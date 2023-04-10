@@ -10,7 +10,10 @@
             </div>
 
             <div class="d-flex justify-content-end align-items-center">
-              <button mat-button [matMenuTriggerFor]="belowMenu" ><mat-icon class="whiteIcon" matBadge="{{totalUserNotifications}}">notifications</mat-icon></button>
+              <button mat-button [matMenuTriggerFor]="belowMenu" >
+                <mat-icon class="whiteIcon" matBadge="{{totalUserNotifications}}" *ngIf="totalUserNotifications > 0">notifications</mat-icon>
+                <mat-icon class="whiteIcon" *ngIf="totalUserNotifications == 0">notifications</mat-icon>
+              </button>
               <mat-menu #belowMenu="matMenu" yPosition="below">
                 <div class="warningCard" *ngFor="let item of userNotifications" (mouseenter)="onMouseEnter(item)">
                   <!-- {{item | json}} -->

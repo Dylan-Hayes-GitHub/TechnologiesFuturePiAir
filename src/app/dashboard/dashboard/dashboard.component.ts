@@ -123,12 +123,13 @@ export class DashboardComponent implements OnInit {
         this.dataService.$last24Hours.pipe(
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
+          this.dataService.setCo2Data(filteredData);
+
           this.dataService.setLastHourFilter(false);
           this.dataService.setLastThreeDaysFilter(false);
           this.dataService.setLast24HoursFilter(true);
 
           this.dataService.getMetrics(filteredData);
-          this.dataService.setCo2Data(filteredData);
 
         });
         break;
@@ -136,11 +137,12 @@ export class DashboardComponent implements OnInit {
         this.dataService.$last3Days.pipe(
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
+          this.dataService.setCo2Data(filteredData);
+
           this.dataService.setLastHourFilter(false);
           this.dataService.setLast24HoursFilter(false);
           this.dataService.setLastThreeDaysFilter(true);
           this.dataService.getMetrics(filteredData);
-          this.dataService.setCo2Data(filteredData);
 
         });
         break;
@@ -148,6 +150,8 @@ export class DashboardComponent implements OnInit {
         this.dataService.$lastHour.pipe(
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
+          this.dataService.setCo2Data(filteredData);
+
           this.dataService.setLast24HoursFilter(false);
           this.dataService.setLastThreeDaysFilter(false);
           this.dataService.setLastHourFilter(true);

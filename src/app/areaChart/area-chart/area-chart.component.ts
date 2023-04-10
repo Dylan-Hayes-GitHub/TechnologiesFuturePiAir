@@ -12,7 +12,7 @@ import { DataService } from 'src/app/data/data.service';
 export class AreaChartComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<AreaChart>;
-
+  public graphFullyLoaded: boolean = false;
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
@@ -23,15 +23,14 @@ export class AreaChartComponent implements OnInit {
     this.dataService.$co2Data.pipe(
       filter((arr) => arr[0].co2 !== 0)
     ).subscribe(co2Data => {
-      let formattedData = co2Data.map((dataPoint) => ({
-        x: new Date(dataPoint.timeCollectedAt),
-        y: dataPoint.co2
-      }))
       this.chartOptions = {
         series: [
           {
             name: "CO2",
-            data:formattedData
+            data: co2Data.map((dataPoint) => ({
+              x: new Date(dataPoint.timeCollectedAt),
+              y: dataPoint.co2
+            })),
 
           }
         ],
@@ -54,6 +53,8 @@ export class AreaChartComponent implements OnInit {
           max: new Date().getTime()
         }
       };
+
+      this.graphFullyLoaded = true;
     });
   }
 

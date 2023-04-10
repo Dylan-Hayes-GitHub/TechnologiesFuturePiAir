@@ -118,7 +118,6 @@ export class DataService {
     let warningLevel = +localStorage.getItem('co2WarningLevel')
     warningLevel != 0 ? warningLevel : 1500
 
-    console.log(warningLevel)
     //work out average and co2 Peak
     let co2Total = 0;
     let peak = 0;
