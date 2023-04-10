@@ -36,8 +36,11 @@ export class DataService {
 
   private notificationsSubject: BehaviorSubject<Notifications[]> = new BehaviorSubject([{
     co2LevelWarning: 0,
-    timeWarningOccured: ''
+    timeWarningOccured: '',
+    formattedTime: ''
   }])
+
+  private totalNotificationsSubject: BehaviorSubject<number> = new BehaviorSubject(1000);
 
   //observable to transfer data
   public $co2Data: Observable<co2Data[]> = this.co2DataSubject.asObservable();
@@ -51,6 +54,9 @@ export class DataService {
   public $goodAndBadAirQualityPercentage = this.goodAndBadAirQualityPercentageSubject.asObservable();
 
   public $notifications = this.notificationsSubject.asObservable();
+
+  public $totalNotifications = this.totalNotificationsSubject.asObservable();
+
   constructor() { }
 
   public setCo2Data(data: co2Data[]): void {
@@ -83,6 +89,10 @@ export class DataService {
 
   public setNotifications(notifications: Notifications[]){
     this.notificationsSubject.next(notifications);
+  }
+
+  public setTotalNotifications(total: number): void {
+    this.totalNotificationsSubject.next(total);
   }
 
   public getMetrics(filteredData: co2Data[]): void {

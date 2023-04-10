@@ -6,6 +6,7 @@ import { ChartComponent } from 'ng-apexcharts';
 import { ChartOptions, Notifications } from 'src/app/charts/charts';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SettingsPopupComponent } from 'src/app/settings-popup/settings-popup.component';
+import { flip } from '@popperjs/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,10 @@ export class DashboardComponent implements OnInit {
   public showNotifications: boolean = false;
   public belowMenu: any;
 
+  //notification text and time recoreded at
   public userNotifications: Notifications[] = [];
+  //total number to be displayed on badge
+  public totalUserNotifications: number = 0;
   constructor(private dashboardService: DashboardService, private dataService: DataService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -67,6 +71,12 @@ export class DashboardComponent implements OnInit {
       filter((x) => x[0].co2LevelWarning !== 0)
     ).subscribe(notis => {
       this.userNotifications = notis;
+    });
+
+    this.dataService.$totalNotifications.pipe(
+      filter((x) => x != 1000)
+    ).subscribe(totalNotis => {
+      this.totalUserNotifications = totalNotis;
     })
 
   }
@@ -123,5 +133,12 @@ export class DashboardComponent implements OnInit {
         break;
     }
   }
+
+  public onMouseEnter(notification: Notifications): void {
+   //this is used to determine if a user has seen a specific notification so that the count can be reduced
+   this.dashboardService.viewNotification(notification);
+  }
+
+
 
 }

@@ -10,10 +10,26 @@
             </div>
 
             <div class="d-flex justify-content-end align-items-center">
-              <button mat-button [matMenuTriggerFor]="belowMenu"><mat-icon class="whiteIcon">notifications</mat-icon></button>
+              <button mat-button [matMenuTriggerFor]="belowMenu" ><mat-icon class="whiteIcon" matBadge="{{totalUserNotifications}}">notifications</mat-icon></button>
               <mat-menu #belowMenu="matMenu" yPosition="below">
-                <div class="test" *ngFor="let item of userNotifications">
-                  {{item | json}}
+                <div class="warningCard" *ngFor="let item of userNotifications" (mouseenter)="onMouseEnter(item)">
+                  <!-- {{item | json}} -->
+                  <div class="customFlex mb-1">
+                    <div class="warningIcon pl-3">
+                      <mat-icon>
+                        error_outline
+                      </mat-icon>
+                    </div>
+                    <div class="warningMessage pl-1">
+                     Chance of migrane
+                    </div>
+                    <div class="wanringLevelCo2Detected">
+                      Co2 Level {{ item.co2LevelWarning }}
+                      <br>
+                       {{ item.formattedTime }}
+                    </div>
+                  </div>
+                  <hr>
                 </div>
 
               </mat-menu>

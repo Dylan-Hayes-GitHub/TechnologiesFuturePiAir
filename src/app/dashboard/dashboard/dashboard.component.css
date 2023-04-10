@@ -37,3 +37,36 @@ body, html {
 .whiteIcon {
   color: white;
 }
+
+.warningCard {
+  width: 300px;
+}
+::ng-deep.mat-menu-panel {
+  max-width:fit-content !important;
+}
+
+.customFlex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.warningIcon {
+  width: 10%;
+}
+
+.warningIcon mat-icon {
+  color: red;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.warningMessage {
+  width: 50%;
+}
+
+.wanringLevelCo2Detected{
+  width: 40%;
+}

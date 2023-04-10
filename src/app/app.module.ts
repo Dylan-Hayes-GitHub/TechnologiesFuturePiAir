@@ -34,6 +34,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatButtonModule,
     MatCardModule,
     MatMenuModule,
+    MatBadgeModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),

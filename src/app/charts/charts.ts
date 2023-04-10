@@ -65,4 +65,5 @@ export interface co2Data {
 export interface Notifications {
   co2LevelWarning: number;
   timeWarningOccured: string;
+  formattedTime: string;
 }

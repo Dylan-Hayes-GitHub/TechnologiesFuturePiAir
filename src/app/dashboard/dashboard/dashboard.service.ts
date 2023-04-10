@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getDatabase, onValue, query, limitToLast, get, limitToFirst, ref } from '@angular/fire/database';
+import { getDatabase, onValue, query, limitToLast, get, limitToFirst, ref, update } from '@angular/fire/database';
 import { Notifications, co2Data } from 'src/app/charts/charts';
 import { DataService } from 'src/app/data/data.service';
 @Injectable({
@@ -15,6 +15,7 @@ export class DashboardService {
   public last24Hours: co2Data[] = [];
   public last3Days:  co2Data[] = [];
   public last7Days:  co2Data[] = [];
+  public totalNotifications: number = 0;
 
   public co2WarningLevel: number = +localStorage.getItem('co2WarningLevel');
   constructor(private dataService: DataService) { }
@@ -110,11 +111,65 @@ export class DashboardService {
     let userNotifications: Notifications[] = [];
     onValue(notificationsRef, notifications => {
       userNotifications = [];
+      this.totalNotifications = 0;
       notifications.forEach(values => {
-        let newNoti: Notifications = {co2LevelWarning : +values.child('co2LevelWarning').val, timeWarningOccured: values.child('timeWarningOccured').val()}
+
+        if(!values.hasChild('notificationViewed')){
+          this.totalNotifications++;
+        }
+
+        let newNoti: Notifications = {co2LevelWarning : +values.child('co2LevelWarning').val(),
+        timeWarningOccured: values.child('timeWarningOccured').val(),
+        formattedTime: this.formatDatetime(values.child('timeWarningOccured').val())}
+
         userNotifications.push(newNoti);
       })
+      userNotifications = userNotifications.reverse();
+
+      //set user notifications
       this.dataService.setNotifications(userNotifications);
+
+      //set count of notifications
+      this.dataService.setTotalNotifications(this.totalNotifications);
+    });
+  }
+
+  public formatDatetime(datetimeString: string): string {
+    const datetime = new Date(datetimeString);
+    const hours = datetime.getHours();
+    const minutes = datetime.getMinutes();
+    const amPm = hours >= 12 ? 'pm' : 'am';
+    const formattedHours = ((hours % 12) || 12).toString();
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const monthNames = [
+      "Jan", "Feb", "Mar",
+      "Apr", "May", "Jun", "Jul",
+      "Aug", "Sep", "Oct",
+      "Nov", "Dec"
+    ];
+    const monthIndex = datetime.getMonth();
+    const formattedMonth = monthNames[monthIndex];
+    const formattedDay = datetime.getDate().toString();
+    const formattedDatetime = formattedHours + ':' + formattedMinutes + amPm + ' ' + formattedMonth + ' ' + formattedDay;
+    return formattedDatetime;
+  }
+
+  public viewNotification(notification: Notifications): void {
+    const db = getDatabase();
+    const notificationsRef = ref(db, 'notification');
+
+    get(notificationsRef).then(userNotifications => {
+      userNotifications.forEach(notis => {
+        if(notis.child('timeWarningOccured').val() == notification.timeWarningOccured){
+          console.log("found at key " + notis.toJSON())
+          console.log(notis.toJSON())
+          //update firebase to say that notification has been seen that count can reduce
+          const notificationUpdateRef = ref(db, 'notification/'+notis.key);
+          update(notificationUpdateRef, {
+              'notificationViewed': true
+          })
+        }
+      })
     })
   }
 }
