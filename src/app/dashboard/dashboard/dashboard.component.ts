@@ -6,6 +6,7 @@ import { ChartComponent } from 'ng-apexcharts';
 import { ChartOptions, Notifications } from 'src/app/charts/charts';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SettingsPopupComponent } from 'src/app/settings-popup/settings-popup.component';
+import {Auth} from '@angular/fire/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,7 +38,7 @@ export class DashboardComponent implements OnInit {
   public userNotifications: Notifications[] = [];
   //total number to be displayed on badge
   public totalUserNotifications: number = 0;
-  constructor(private dashboardService: DashboardService, private dataService: DataService, public dialog: MatDialog) { }
+  constructor(private dashboardService: DashboardService, private dataService: DataService, public dialog: MatDialog, private auth: Auth) { }
 
   ngOnInit(): void {
     this.getData();
@@ -124,11 +125,9 @@ export class DashboardComponent implements OnInit {
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
           this.dataService.setCo2Data(filteredData);
-
           this.dataService.setLastHourFilter(false);
           this.dataService.setLastThreeDaysFilter(false);
           this.dataService.setLast24HoursFilter(true);
-
           this.dataService.getMetrics(filteredData);
 
         });
@@ -138,7 +137,6 @@ export class DashboardComponent implements OnInit {
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
           this.dataService.setCo2Data(filteredData);
-
           this.dataService.setLastHourFilter(false);
           this.dataService.setLast24HoursFilter(false);
           this.dataService.setLastThreeDaysFilter(true);
@@ -151,17 +149,12 @@ export class DashboardComponent implements OnInit {
           filter((arr) => arr[0].co2 !== 0)
         ).subscribe(filteredData => {
           this.dataService.setCo2Data(filteredData);
-
           this.dataService.setLast24HoursFilter(false);
           this.dataService.setLastThreeDaysFilter(false);
           this.dataService.setLastHourFilter(true);
-
           this.dataService.getMetrics(filteredData);
-          this.dataService.setCo2Data(filteredData);
 
         });
-        break;
-      default:
         break;
     }
   }

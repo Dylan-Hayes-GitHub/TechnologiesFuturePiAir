@@ -15,10 +15,6 @@ export class DataService {
     timeCollectedAt: ''
   }]);
 
-  private goodAndBadAirQualityPercentageSubject: BehaviorSubject<number[]> = new BehaviorSubject([101]);
-  private averageCo2Subject: BehaviorSubject<number> = new BehaviorSubject(0);
-  private peakCo2Subject: BehaviorSubject<number> = new BehaviorSubject(0);
-
   private last24HoursSubject: BehaviorSubject<co2Data[]> = new BehaviorSubject([{
     co2: 0,
     timeCollectedAt: ''
@@ -38,7 +34,11 @@ export class DataService {
     co2LevelWarning: 0,
     timeWarningOccured: '',
     formattedTime: ''
-  }])
+  }]);
+
+  private goodAndBadAirQualityPercentageSubject: BehaviorSubject<number[]> = new BehaviorSubject([101]);
+  private averageCo2Subject: BehaviorSubject<number> = new BehaviorSubject(0);
+  private peakCo2Subject: BehaviorSubject<number> = new BehaviorSubject(0);
 
   private totalNotificationsSubject: BehaviorSubject<number> = new BehaviorSubject(1000);
 
@@ -136,10 +136,14 @@ export class DataService {
       counter ++;
     });
 
-    let goodAirQualityPercentage = ((filteredData.length - totalAmountOfBadAir) / filteredData.length) * 100;
-    let badAirQualityPercentage = (totalAmountOfBadAir / filteredData.length) * 100;
+    let goodAirQualityPercentage =
+    ((filteredData.length - totalAmountOfBadAir) / filteredData.length) * 100;
 
-    let values: number[] = [Math.round(goodAirQualityPercentage) , Math.round(badAirQualityPercentage)];
+    let badAirQualityPercentage =
+    (totalAmountOfBadAir / filteredData.length) * 100;
+
+    let values: number[] =
+    [Math.round(goodAirQualityPercentage) , Math.round(badAirQualityPercentage)];
     let co2Avg = Math.round(co2Total / counter);
 
     //set values

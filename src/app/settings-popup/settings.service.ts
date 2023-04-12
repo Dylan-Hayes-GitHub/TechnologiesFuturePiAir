@@ -10,13 +10,12 @@ export class SettingsService {
 
   public storeCo2WarningLevel(value: number): void {
     localStorage.setItem('co2WarningLevel', value.toString())
+
     const db = getDatabase();
     const storeRef = ref(db,"settings");
 
     update(storeRef, {
       'co2WarningLevel': value
     });
-
-
   }
 }

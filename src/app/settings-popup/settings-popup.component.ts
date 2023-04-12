@@ -47,7 +47,6 @@ export class SettingsPopupComponent implements OnInit {
     )
     .subscribe(filter => {
       if(filter){
-
         this.dashboardService.getSensorData(1);
       }
     });
@@ -57,7 +56,6 @@ export class SettingsPopupComponent implements OnInit {
     ).subscribe(filter => {
 
       if(filter){
-
         this.dashboardService.getSensorData(24);
       }
     });
@@ -67,11 +65,9 @@ export class SettingsPopupComponent implements OnInit {
     ).subscribe(filter => {
 
       if(filter){
-
         this.dashboardService.getSensorData(72);
       }
     });
-
 
     this.dialogRef.close();
   }

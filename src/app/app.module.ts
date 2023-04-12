@@ -35,6 +35,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
+import { AngularFireModule } from '@angular/fire/compat';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     AlertsPopupComponent
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebase),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
